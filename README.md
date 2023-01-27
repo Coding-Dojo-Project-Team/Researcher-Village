@@ -16,7 +16,7 @@ This web application built in Python with Flask. Registered students can create,
     <tbody>
         <tr>
             <td>GET</td>
-            <td>/Example</td>
+            <td>/Path/Example</td>
             <td>Get example</td>
         </tr>
     </tbody>
@@ -35,8 +35,43 @@ This web application built in Python with Flask. Registered students can create,
     <tbody>
         <tr>
             <td>id</td>
-            <td>/integer</td>
+            <td>integer</td>
             <td>auto incremented primary key</td>
+        </tr>
+        <tr>
+            <td>first_name</td>
+            <td>VARCHAR(45)</td>
+            <td>user first namey</td>
+        </tr>
+        <tr>
+            <td>last_name</td>
+            <td>VARCHAR(45)</td>
+            <td>user last name</td>
+        </tr>
+        <tr>
+            <td>class</td>
+            <td>SET(...)</td>
+            <td>user class</td>
+        </tr>
+        <tr>
+            <td>email</td>
+            <td>VARCHAR(45)</td>
+            <td>user email address</td>
+        </tr>
+        <tr>
+            <td>password</td>
+            <td>VARCHAR(45)</td>
+            <td>password hash</td>
+        </tr>
+        <tr>
+            <td>created_at</td>
+            <td>DATETIME</td>
+            <td>record created date and time</td>
+        </tr>
+        <tr>
+            <td>updated_at</td>
+            <td>DATETIME</td>
+            <td>record updated date and time</td>
         </tr>
     </tbody>
 </table>
