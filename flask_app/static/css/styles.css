@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+ul{
+    list-style: none;
+}
+
+th{
+    background-color:lightgrey !important;
+}
+
+.narrow-row{
+    width: 100px !important;
+}
+
+tbody{
+    background-color: #ffffaf  !important;
+}
+tbody,thead{
+    border-left: 2px solid #dea4a6 !important;
+}
+tbody, thead{
+    border-bottom: 2px solid #aac0d7 !important;
+    border-right: 2px solid #dea4a6 !important;
+}
+.card-img-top{
+    width: 50% !important;
+}
