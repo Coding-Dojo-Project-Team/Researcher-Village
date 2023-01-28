@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Login Form Page</title>
+</head>
+<body>
+    <main>
+            <!-- from learn platform -->
+    <!-- {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div id="popup">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+                <button onclick ="popup.remove()">Ok</button>
+            {% endfor%}
+        </div>
+    {% endif %}
+{% endwith %} -->
+        <div class="login_form">
+            <h1>Researcher Village</h1>
+            <h2>Login</h2>
+            <form action ="/login" method = "post">
+                <label>
+                    Email:
+                    <input type="email" name="email">
+                </label>
+                <label>
+                    Password:
+                    <input type="password" name="password">
+                </label>
+                <input type="submit" value="Login">
+            </form>
+            <a href="/register">Not Registered?</a>
+        </div>
+    </main>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js')}}"></script>
+</body>
+</html>
