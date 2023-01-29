@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- commented out until we have controller to run app, render template, and utilize jinja2 -->
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"> -->
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <title>Researcher Village</title>
+</head>
+<body class="">
+    <nav class="d-flex justify-content-end mt-3 me-5">
+        <ul class="text-end d-inline-flex">
+            <li class="mx-2"><a href="/dashboard">Home </a></li> |
+            <li class="mx-2"><a href="/post">Post</a></li> |
+            <li class="mx-2"><a href="/logout">Logout</a></li> 
+        </ul>
+    </nav>
+    <main class=" mx-auto mt-5 col-8">
+        <form class="d-flex mt-3 flex-column" action="/create_post" method="post">
+            <!-- Do we not want labels? -->
+            <div class="mx-auto">
+                <input class="form-control post-input" type="text" name="project_name" value="Prefilled answer">
+            </div><br><br>
+            <div class="mx-auto">
+                <select class="form-select post-input" type="category" name="subject">
+                    <!-- Will accept prefilled answer -->
+                    <option value="">Subject Category</option>
+                    <option value="">Literature</option>
+                    <option value="">Social Science</option>
+                    <option value="">Science</option>
+                    <option value="">History</option>
+                    <option value="">Art</option>
+                </select>
+                <!-- We need to clarify nature of to-dos -->
+            </div><br><br>
+            <div class="mx-auto form-check">
+                <input class="form-check-input" value="0" type="checkbox" name="project_name">
+                <label class="form-check-label" name="todo" for="">To-Do #1 {number of days till completion}</label>
+            </div>
+            <div class="mx-auto form-check">
+                <input class="form-check-input" value="0" type="checkbox" name="project_name">
+                <label class="form-check-label" name="todo" for="">To-Do #2 {number of days till completion}</label>
+            </div>
+            <div class="mx-auto form-check">
+                <input class="form-check-input" value="0" type="checkbox" name="project_name">
+                <label class="form-check-label" name="todo" for="">To-Do #3 {number of days till completion}</label>
+            </div>
+            <div class="mx-auto form-check">
+                <input class="form-check-input" value="0" type="checkbox" name="project_name">
+                <label class="form-check-label" name="todo" for="">To-Do #4 {number of days till completion}</label>
+            </div>
+            <div class="mx-auto form-check">
+                <input class="form-check-input" value="0" type="checkbox" name="project_name">
+                <label class="form-check-label" name="todo" for="">To-Do #5 {number of days till completion}</label>
+            </div><br><br>
+            <div class="mx-auto form-check">
+                <input class="btn btn-secondary" type="submit" value="Update Project!">
+            </div>
+        </form>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
