@@ -4,7 +4,7 @@ from flask_app.models.user import User
 from flask_app.models.project import Project
 
 class Task:
-    db = "group_project"
+    db = "group_projects"
     def __init__(self,data):
         self.id = data['id']
         self.task = data['task']
@@ -17,12 +17,12 @@ class Task:
 
     @classmethod
     def task_insert(cls,data):
-        query = "INSERT INTO tasks (task, date, status, user_id) VALUES(%(task)s,%(date)s,%(status)s %(user_id)s);"
+        query = "INSERT INTO tasks (task, date, status, project_id) VALUES(%(task)s,%(date)s,%(status)s %(project_id)s);"
         return connectToMySQL(cls.db).query_db(query,data)
     
     @classmethod
     def get_all_tasks(cls):
-        query = "SELECT * FROM tasks JOIN users ON tasks.user_id = users.id;"
+        query = "SELECT * FROM tasks JOIN users ON tasks.project_id = project.id;"
 
         results = connectToMySQL(cls.db).query_db(query)
         print(results)
@@ -33,27 +33,25 @@ class Task:
             all_tasks = []
             for task_dictionary in results:              
                 task_obj = cls(task_dictionary)
-                user_dictionary = {
-                    "id" : task_dictionary['users.id'],
-                    "first_name" : task_dictionary['first_name'],
-                    "last_name" : task_dictionary['last_name'],
-                    "email" : task_dictionary['email'],
-                    "year" : task_dictionary ['year'],
-                    "password" : task_dictionary['password'],
+                project_dictionary = {
+                    "id" : task_dictionary['project.id'],
+                    "task" : task_dictionary['task'],
+                    "date" : task_dictionary['date'],
+                    "status" : task_dictionary['status'],
                     "created_at" : task_dictionary['users.created_at'],
                     "updated_at" : task_dictionary['users.updated_at'],
                 }
 
-                user_obj = User(user_dictionary)
+                project_obj = Project(project_dictionary)
 
-                task_obj.user = user_obj
+                task_obj.user = project_obj
 
                 all_tasks.append(task_obj)
             return all_tasks
         
     @classmethod
     def get_one_task(cls,data):
-        query = "SELECT * FROM tasks JOIN users ON task.user_id = users.id WHERE task.id = %(id)s;"
+        query = "SELECT * FROM tasks JOIN projects ON task.project_id = projects.id WHERE task.id = %(id)s;"
         results = connectToMySQL(cls.db).query_db(query,data)
         print(results)
         
@@ -62,20 +60,18 @@ class Task:
         else: 
             task_dictionary = results[0]
             task_obj = cls(results[0])
-            user_dictionary = {
-                    "id" : task_dictionary['users.id'],
-                    "first_name" : task_dictionary['first_name'],
-                    "last_name" : task_dictionary['last_name'],
-                    "email" : task_dictionary['email'],
-                    "year" : task_dictionary ['year'],
-                    "password" : task_dictionary['password'],
-                    "created_at" : task_dictionary['users.created_at'],
-                    "updated_at" : task_dictionary['users.updated_at'],
+            project_dictionary = {
+                    "id" : task_dictionary['project.id'],
+                    "task" : task_dictionary['task'],
+                    "date" : task_dictionary['date'],
+                    "status" : task_dictionary['status'],
+                    "created_at" : task_dictionary['projects.created_at'],
+                    "updated_at" : task_dictionary['projects.updated_at'],
                 }
 
-            task_obj = User(user_dictionary)
+            task_obj = Project(project_dictionary)
 
-            task_obj.user = user_obj
+            task_obj.project = project_obj
             return task_obj
         
 
