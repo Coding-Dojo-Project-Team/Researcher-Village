@@ -1,0 +1,32 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+ul{
+    list-style: none;
+}
+
+th{
+    background-color:lightgrey !important;
+    border: black 2px solid !important;
+}
+
+tbody{
+    background-color: #ffffaf  !important;
+}
+.narrow-row{
+    width: 100px !important;
+}
+
+.status{
+    border-left: 2px solid #dea4a6 !important;
+    border-bottom: 2px solid #aac0d7 !important;
+}
+.task-name{
+    border-left: 2px solid #dea4a6 !important;
+    border-bottom: 2px solid #aac0d7 !important;
+}
+.card-img-top{
+    width: 50% !important;
+}
