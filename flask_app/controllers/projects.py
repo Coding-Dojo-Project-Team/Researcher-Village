@@ -7,7 +7,7 @@ from flask_app.models.user import User
 from flask_app.models.project import Project
 
 @app.route("/post")
-def post_blog():
+def post_project():
     return render_template("post.html")
 
 @app.route('/dashboard')
