@@ -3,7 +3,7 @@ from flask import flash
 from flask_app.models.user import User
 
 class Project:
-    db = "project_schema"
+    db = "group_projects"
     def __init__(self,data):
         self.id = data['id']
         self.project_name = data['projeect_name']
