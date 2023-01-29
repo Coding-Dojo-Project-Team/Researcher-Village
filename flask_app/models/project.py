@@ -90,3 +90,9 @@ class Project:
     def project_edit(cls, data):
         query = "UPDATE project SET project_name = %(project_name)s, category = %(category)s WHERE id =%(id)s"
         return connectToMySQL(cls.db).query_db(query,data)
+    
+    @classmethod
+    def get_by_id(cls, data):
+        query = "SELECT * FROM projects WHERE id = %(id)s;"
+        results = connectToMySQL(cls.db).query_db(query,data)
+        return cls(results[0]) 

@@ -19,7 +19,7 @@ def dashboard():
     data ={
         'id': session['user_id']
     }
-    return render_template("dashboard.html", user=User.get_by_id(data))
+    return render_template("dashboard.html", project=Project.get_by_id(data))
 
 @app.route('/task')
 def tasks():
@@ -28,7 +28,7 @@ def tasks():
     data ={
         'id': session['user_id']
     }
-    return render_template("project.html",user=User.get_by_id(data), new_system = Task.get_all_tasks())
+    return render_template("project.html",project=Project.get_by_id(data), new_system = Task.get_all_tasks())
 
 @app.route('/tasks/to_db', methods=["POST"])      
 def task():
@@ -62,4 +62,5 @@ def edit_tasks (id):
     data = {
         "id" : id,  
     }
-    return render_template("update.html", user=User.get_by_id(data), "Place Holder" = Task.get_one_task(data))
+    return render_template("update.html", project=Project.get_by_id(data), "Place Holder" = Task.get_one_task(data))
+
