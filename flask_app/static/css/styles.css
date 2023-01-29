@@ -9,21 +9,23 @@ ul{
 
 th{
     background-color:lightgrey !important;
-}
-
-.narrow-row{
-    width: 100px !important;
+    border: black 2px solid !important;
 }
 
 tbody{
     background-color: #ffffaf  !important;
 }
-tbody,thead{
-    border-left: 2px solid #dea4a6 !important;
+.narrow-row{
+    width: 100px !important;
 }
-tbody, thead{
+
+.status{
+    border-left: 2px solid #dea4a6 !important;
     border-bottom: 2px solid #aac0d7 !important;
-    border-right: 2px solid #dea4a6 !important;
+}
+.task-name{
+    border-left: 2px solid #dea4a6 !important;
+    border-bottom: 2px solid #aac0d7 !important;
 }
 .card-img-top{
     width: 50% !important;
