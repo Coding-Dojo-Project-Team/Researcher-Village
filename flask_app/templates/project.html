@@ -109,10 +109,21 @@
                 </tr>
             </tbody>
         </table>
+        <form class="col-6 border border-1 p-3 hide" id="task-form" action="/tasks/to_db{{project.id}}" method="POST">
+                <label class="form-label" for="task">Add a task to {{project.project_name}}</label>
+                <input class="form-control" type="text" name="task" id="task">
+                <div class="mt-2 text-end">
+                    <input class="submit-task"  type="submit" value="+">
+                    <a class=" btn btn-secondary" id="close-task-from">Cancel</a>
+                </div>
+        </form>
         <div>
-            <a class="btn btn-warning" href="/status/{{this_proeject_id}}">Add Task to Project</a>
-            <a class="btn btn-primary" href="/status/{{this_proeject_id}}">Update Tasks</a>
+            <button class="btn btn-warning add-task" href="">Add Task to Project</button>
+            <a class="btn btn-primary"  href="/status/{{this_proeject_id}}">Update Tasks</a>
         </div>
-        
+    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <script src="../static/js/scripts.js"></script>
+    <!-- ^^ will switch out once front-end and back-end are in sync -->
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script> -->
 </body>
 </html>
