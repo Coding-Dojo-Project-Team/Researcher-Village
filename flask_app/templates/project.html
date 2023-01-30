@@ -14,63 +14,116 @@
 <body>
     <nav class="d-flex justify-content-end mt-3 me-5">
         <ul class="text-end d-inline-flex">
-            <li class="mx-2"><a href="/dashboard">Home </a></li> |
-            <li class="mx-2"><a href="/post">Post</a></li> |
+            <li class="mx-2"><a href="/post">Home </a></li> |
+            <li class="mx-2"><a href="/project">Post</a></li> |
             <li class="mx-2"><a href="/logout">Logout</a></li> 
         </ul>
     </nav>
-    <main class=" mx-auto mt-5 col-6 d-flex flex-column align-items-center">
-        <h1 class="text-center">{Project Name} Tasks</h1>
-        <!-- Should we display anything else about the task? -->
-        <div class="my-3">
-            <a class="btn btn-success" href="/status/{{this_proeject_id}}">Check Project Status</a>
+    <main class=" mx-auto mt-5 col-6 d-flex flex-column">
+        <!-- Project info, un-task related -->
+        <div>
+            <!-- <h1 class="">{Project Name} Tasks</h1>
+            {% if project.category == 'Literature'  %}
+                <h2> Subject: Literature <i class="bi bi-journal-text"></i></h2>
+            {% elif %}
+                <h2> Subject: History <i class="bi bi-globe-europe-africa"></i></h2>
+            {% elif %}
+                <h2> Subject: Social Science<i class="bi bi-bar-chart-line-fill"></i></h2>
+            {% elif %}
+                <h2> Subject: Science <i class="bi bi-lightning-charge-fill"></i></h2>
+            {% elif %}
+                <h2> Subject: Art <i class="bi bi-brush"></i></h2>
+            {% end if %}
+            {% if  {{ time.now.date() }} >= project.due_date - time.delta(days=2) %}
+                <h2>Due Date: {{ project.due_date }} Due Soon!</h2>
+            {% elif {{ time.now.date() }} == project.due_date %}
+                <h2>Due Date: {{ project.due_date }} Due Today!</h2>
+            {% else %}
+            <h2>Due Date: {{ project.due_date }}</h2>
+            {% end if %} -->
+            <div class="d-flex align-items-center">
+                <h1 class="me-3">{Project Name}</h1>
+                <a class="me-3 btn btn-success" href="/project/edit/{{project.id}}">Update</a>
+                <a class="me-3 btn btn-danger" href="/project/delete/{{project.id}}">Delete</a>
+            </div>
+            <h2> Subject: Science <i class="bi bi-lightning-charge-fill"></i></h2>
+            <h2>Due Date: {{ project.due_date }}</h2>
         </div>
-        <table class="table table-bordered border-dark">
+        <!-- Should we display anything else about the task? -->
+        <table class="table ">
             <thead>
                 <tr>
                     <th>Tasks</th>
-                    <th class="narrow-row">Days</th>
                     <th class="narrow-row">Status</th>
                 </tr>
             </thead>
             <tbody>
+                <!-- {% for task in all_project_tasks %}
+                    {% if task.status == 0  %}
+                        <tr>
+                            <td class="task-name">{{ task.name }}</td>
+                            <td class="status" >
+                                <input class="form-check-input" type="checkbox" name="" id="">
+                            </td>
+                        </tr>
+                    {% else%}
+                        <tr>
+                            if completed text will crossed out
+                            <td class="task-name completed">{{ task.name }}</td>
+                            <td class="status" >
+                                <input class="form-check-input" type="checkbox" name="" id="">
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %} -->
+                <!-- Need to determine how we want to update tasks -->
                 <tr>
-                    <td>Task Name</td>
-                    <td>Days Left</td>
-                    <td>
-                        <input class="form-check-input" type="checkbox" name="" id="">
+                    <td class="task-name">Task Name</td>
+                    <td class="status" >
+                        <!-- <input class="form-check-input" type="checkbox" name="" id=""> -->
                     </td>
                 </tr>
                 <tr>
-                    <td>Task Name</td>
-                    <td>Days Left</td>
-                    <td>
-                        <input class="form-check-input" type="checkbox" name="" id="">
+                    <td class="task-name">Task Name</td>
+                    <td class="status" >
+                        <!-- <input class="form-check-input" type="checkbox" name="" id=""> -->
                     </td>
                 </tr>
                 <tr>
-                    <td>Task Name</td>
-                    <td>Days Left</td>
-                    <td>
-                        <input class="form-check-input" type="checkbox" name="" id="">
+                    <td class="task-name">Task Name</td>
+                    <td class="status" >
+                        <!-- <input class="form-check-input" type="checkbox" name="" id=""> -->
                     </td>
                 </tr>
                 <tr>
-                    <td>Task Name</td>
-                    <td>Days Left</td>
-                    <td>
-                        <input class="form-check-input" type="checkbox" name="" id="">
+                    <td class="task-name">Task Name</td>
+                    <td class="status" >
+                        <!-- <input class="form-check-input" type="checkbox" name="" id=""> -->
                     </td>
                 </tr>
                 <tr>
-                    <td>Task Name</td>
-                    <td>Days Left</td>
-                    <td>
-                        <input class="form-check-input" type="checkbox" name="" id="">
+                    <td class="task-name">Task Name</td>
+                    <td class="status" >
+                        <!-- <input class="form-check-input" type="checkbox" name="" id=""> -->
                     </td>
                 </tr>
             </tbody>
         </table>
-
+        <form class="col-6 border border-1 p-3 hide" id="task-form" action="/tasks/to_db{{project.id}}" method="POST">
+                <label class="form-label" for="task">Add a task to {{project.project_name}}</label>
+                <input class="form-control" type="text" name="task" id="task">
+                <div class="mt-2 text-end">
+                    <input class="submit-task"  type="submit" value="+">
+                    <a class=" btn btn-secondary" id="close-task-from">Cancel</a>
+                </div>
+        </form>
+        <div>
+            <button class="btn btn-warning add-task" href="">Add Task to Project</button>
+            <a class="btn btn-primary"  href="/status/{{this_proeject_id}}">Update Tasks</a>
+        </div>
+    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <script src="../static/js/scripts.js"></script>
+    <!-- ^^ will switch out once front-end and back-end are in sync -->
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script> -->
 </body>
 </html>

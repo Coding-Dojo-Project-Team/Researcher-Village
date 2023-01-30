@@ -14,50 +14,33 @@
 <body class="">
     <nav class="d-flex justify-content-end mt-3 me-5">
         <ul class="text-end d-inline-flex">
-            <li class="mx-2"><a href="/dashboard">Home </a></li> |
-            <li class="mx-2"><a href="/post">Post</a></li> |
-            <li class="mx-2"><a href="/logout">Logout</a></li> 
+            <li class="mx-2"><a href="/post">Home </a></li> |
+            <li class="mx-2"><a href="/project">Post</a></li> |
+            <li class="mx-2"><a href="/logout">Logout</a></li>  
         </ul>
     </nav>
     <main class=" mx-auto mt-5 col-8">
-        <form class="d-flex mt-3 flex-column" action="/create_post" method="post">
+        <!-- need update route -->
+        <form class="d-flex mt-3 flex-column" action="/projects/to_db" method="post">
             <!-- Do we not want labels? -->
             <div class="mx-auto">
-                <input class="form-control post-input" type="text" name="project_name" value="Prefilled answer">
+                <input class="form-control post-input" type="text" name="project_name" placeholder="{{project.project_name}}">
             </div><br><br>
             <div class="mx-auto">
                 <select class="form-select post-input" type="category" name="subject">
-                    <!-- Will accept prefilled answer -->
-                    <option value="">Subject Category</option>
+                    <option value="{{project.category}}">{{project.category}}</option>
                     <option value="">Literature</option>
                     <option value="">Social Science</option>
                     <option value="">Science</option>
                     <option value="">History</option>
                     <option value="">Art</option>
                 </select>
-                <!-- We need to clarify nature of to-dos -->
             </div><br><br>
-            <div class="mx-auto form-check">
-                <input class="form-check-input" value="0" type="checkbox" name="project_name">
-                <label class="form-check-label" name="todo" for="">To-Do #1 {number of days till completion}</label>
-            </div>
-            <div class="mx-auto form-check">
-                <input class="form-check-input" value="0" type="checkbox" name="project_name">
-                <label class="form-check-label" name="todo" for="">To-Do #2 {number of days till completion}</label>
-            </div>
-            <div class="mx-auto form-check">
-                <input class="form-check-input" value="0" type="checkbox" name="project_name">
-                <label class="form-check-label" name="todo" for="">To-Do #3 {number of days till completion}</label>
-            </div>
-            <div class="mx-auto form-check">
-                <input class="form-check-input" value="0" type="checkbox" name="project_name">
-                <label class="form-check-label" name="todo" for="">To-Do #4 {number of days till completion}</label>
-            </div>
-            <div class="mx-auto form-check">
-                <input class="form-check-input" value="0" type="checkbox" name="project_name">
-                <label class="form-check-label" name="todo" for="">To-Do #5 {number of days till completion}</label>
+            <div class="mx-auto">
+                <label class="form-label" for="due_date"><strong>Change due date?</strong></label>
+                <input class="form-control" type="date" name="due_date" id="due_date">
             </div><br><br>
-            <div class="mx-auto form-check">
+            <div class="mx-auto">
                 <input class="btn btn-secondary" type="submit" value="Update Project!">
             </div>
         </form>

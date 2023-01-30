@@ -9,22 +9,45 @@ ul{
 
 th{
     background-color:lightgrey !important;
-}
-
-.narrow-row{
-    width: 100px !important;
+    border: black 2px solid !important;
 }
 
 tbody{
     background-color: #ffffaf  !important;
 }
-tbody,thead{
-    border-left: 2px solid #dea4a6 !important;
+.narrow-row{
+    width: 100px !important;
 }
-tbody, thead{
+
+.status{
+    border-left: 2px solid #dea4a6 !important;
     border-bottom: 2px solid #aac0d7 !important;
-    border-right: 2px solid #dea4a6 !important;
+}
+.task-name{
+    border-left: 2px solid #dea4a6 !important;
+    border-bottom: 2px solid #aac0d7 !important;
 }
 .card-img-top{
     width: 50% !important;
+}
+
+.hide{
+    display: none;
+}
+#task-form{
+    z-index: 1;
+    background-image: linear-gradient(45deg,  #dea4a6, #aac0d7 );
+    box-shadow: -3px 3px 4px 2px black;
+    /* position: relative;
+    bottom: 250px !important; */
+}
+
+.submit-task{
+    border-radius: 100%;
+    width: 35px;
+    height: 35px;
+    padding: 5px;
+    background-color: teal;
+    color: white;
+    border: solid 2px black;
 }
