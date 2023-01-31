@@ -18,7 +18,7 @@ def dashboard():
         'id': session['user_id']
     }
     # don't we want all projects to show in dashboard?
-    return render_template("dashboard.html", user=User.get_by_id(data))
+    return render_template("dashboard.html", user=User.get_user_id(data))
 
 @app.route('/project')
 def projects():

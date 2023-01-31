@@ -5,7 +5,7 @@ from flask_bcrypt import Bcrypt
 import re
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
-Bcrypt = Bcrypt(app)
+bcrypt = Bcrypt(app)
 
 db = "group_project"
 class User:
@@ -21,26 +21,25 @@ class User:
 
     @classmethod
     def authenticated_user_by_input(cls, user_input):
-        valid = True
-        existing_user = cls.get_user_email(user_input["email"])
-        password_valid = True
-
+        email_data = {'email': user_input['email']}
+        if not EMAIL_REGEX.match(user_input['email']):
+            flash("Email or password does not match.", "Login")
+            return False
+        existing_user = User.get_user_email(email_data)
         if not existing_user:
-            valid = False
+            flash("Email or password does not match.", "Login")
+            return False
         else:
             password_valid = bcrypt.check_password_hash(
             existing_user.password, user_input['password'])
             if not password_valid:
-                valid =False
-        if not valid:
-            flash("Email or password does not match.", "Login")
-            return False
+                flash("Email or password does not match.", "Login")
+                return False
         return existing_user
 
     @classmethod
-    def get_user_id(cls, user_id):
-        data = {"id": user_id}
-        query = "SELECT * FROM user WHERE id = %(id)s;"
+    def get_user_id(cls, data):
+        query = "SELECT * FROM users WHERE id = %(id)s;"
         result = connectToMySQL(db).query_db(query,data)
 
         if len(result) <1:
@@ -48,12 +47,10 @@ class User:
         return cls(result[0])
 
     @classmethod
-    def get_user_email(cls, email):
-        data= {"email": email}
-        query = "SELECT * FROM user WHERE email = %(email)s;"
+    def get_user_email(cls, data):
+        query = "SELECT * FROM users WHERE email = %(email)s;"
         result = connectToMySQL(db).query_db(query, data)
-
-        if len(result) <1:
+        if len(result) < 1:
             return False
         return cls(result[0])
 
@@ -78,16 +75,14 @@ class User:
         user['password'] = pw_hash
 
         query = """
-                INSERT into user (first_name, last_name, year, email, password)
-                VALUES (%(first_name)s, %(last_name)s, %(year)s, %(email)s, %(password)s;"""
-        new_user_id = connectToMySQL(db).query_db(query, user)
-        new_user = cls.get_user_id(new_user_id)
+                INSERT INTO users (first_name, last_name, year, email, password)
+                VALUES (%(first_name)s, %(last_name)s, %(year)s, %(email)s, %(password)s);"""
+        new_user = connectToMySQL(db).query_db(query, user)
         return (new_user)
 
     @classmethod
     def is_valid(cls, user):
         valid = True
-
         if len(user['first_name']) <2:
             flash("First name must be at least 2 characters.","Register")
             valid = False
@@ -102,8 +97,9 @@ class User:
             valid = False
         if len(user['password']) <8:
             flash("Password must be at least 8 characters.","Register")
-            is_valid = False
-        email_already_has_account = User.get_user_email(user['email'])
+            valid = False
+        email_data = {'email':user['email']}
+        email_already_has_account = User.get_user_email(email_data)
         if email_already_has_account:
             flash("email registered to another User.")
             valid = False
