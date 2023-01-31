@@ -1,4 +1,4 @@
-from crypt import methods
+#from crypt import methods
 
 from flask import flash, redirect, render_template, request, session
 
@@ -12,14 +12,14 @@ from flask_app.models.task import Task
 def post_task():
     return render_template("post.html")
 
-@app.route('/dashboard')
-def dashboard():
-    if 'user_id' not in session:
-        return redirect('/logout')
-    data ={
-        'id': session['user_id']
-    }
-    return render_template("dashboard.html", project=Project.get_by_id(data))
+# @app.route('/dashboard')
+# def dashboard():
+#     if 'user_id' not in session:
+#         return redirect('/logout')
+#     data ={
+#         'id': session['user_id']
+#     }
+#     return render_template("dashboard.html", project=Project.get_by_id(data))
 
 @app.route('/task')
 def tasks():
@@ -62,5 +62,4 @@ def edit_tasks (id):
     data = {
         "id" : id,  
     }
-    return render_template("update.html", project=Project.get_by_id(data), "Place Holder" = Task.get_one_task(data))
-
+    return render_template("update.html", project=Project.get_by_id(data)) #"Place Holder" = Task.get_one_task(data)
