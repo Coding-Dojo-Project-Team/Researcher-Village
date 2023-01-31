@@ -1,4 +1,4 @@
-from crypt import methods
+#from crypt import methods
 
 from flask import flash, redirect, render_template, request, session
 
@@ -62,4 +62,4 @@ def edit_project (id):
     data = {
         "id" : id,  
     }
-    return render_template("update.html", user=User.get_by_id(data), project_to_edit = Project.get_one_project(data))
+    return render_template("update.html", user=User.get_by_id(data)) #<--"Place Holder" = Project.get_one_project(data)

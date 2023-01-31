@@ -4,7 +4,7 @@ from flask import flash
 from flask_bcrypt import Bcrypt
 import re
 
-EMAIL_ REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 Bcrypt = Bcrypt(app)
 
 db = "group_project"
