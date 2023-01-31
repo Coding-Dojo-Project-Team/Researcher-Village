@@ -1,9 +1,8 @@
 $(document).ready(()=>{
     $('.add-task').on('click', ()=>{
-        $('#task-form').show();
+        $('#task-form').slideDown(200);
     });
-    
     $('#close-task-from').on('click', ()=>{
-        $('#task-form').hide();
+        $('#task-form').slideUp(200);
     });
 })

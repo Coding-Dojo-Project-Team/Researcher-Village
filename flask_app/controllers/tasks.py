@@ -62,5 +62,5 @@ def edit_tasks (id):
     data = {
         "id" : id,  
     }
-    return render_template("update.html", project=Project.get_by_id(data), "Place Holder" = Task.get_one_task(data))
+    return render_template("update_task.html", project=Project.get_by_id(data), task_to_update = Task.get_one_task(data))
 

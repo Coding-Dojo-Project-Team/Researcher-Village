@@ -15,17 +15,17 @@ th{
 tbody{
     background-color: #ffffaf  !important;
 }
-.narrow-row{
-    width: 100px !important;
-}
 
-.status{
+/* .status{
+    border-left: 2px solid #dea4a6 !important;
+    border-bottom: 2px solid #aac0d7 !important;
+} */
+.task-info{
     border-left: 2px solid #dea4a6 !important;
     border-bottom: 2px solid #aac0d7 !important;
 }
-.task-name{
-    border-left: 2px solid #dea4a6 !important;
-    border-bottom: 2px solid #aac0d7 !important;
+.change-task{
+    border-right: 2px solid #dea4a6 !important;
 }
 .card-img-top{
     width: 50% !important;
@@ -36,18 +36,22 @@ tbody{
 }
 #task-form{
     z-index: 1;
-    background-image: linear-gradient(45deg,  #dea4a6, #aac0d7 );
-    box-shadow: -3px 3px 4px 2px black;
-    /* position: relative;
-    bottom: 250px !important; */
+    background-color:ivory;
+    box-shadow: -3px 3px 6px 3px black;
+    border-radius: 5px;
+    border: 1px solid black !important;
+    width: 35%;
+    position: absolute;
+    bottom: 150px !important;
+    left: 350px !important;
+    font-weight: bolder;
 }
 
-.submit-task{
-    border-radius: 100%;
-    width: 35px;
-    height: 35px;
-    padding: 5px;
-    background-color: teal;
-    color: white;
-    border: solid 2px black;
+.task-action{
+    height: fit-content;
 }
+
+/* .submit-task{
+    background-color:azure !important;
+    color: black !important;
+} */
