@@ -37,21 +37,22 @@
                 <input class="form-control post-input" type="text" name="project_name" placeholder="Enter project name">
             </div><br><br>
             <div class="mx-auto">
-                <select class="form-select post-input" type="category" name="subject">
+                <select class="form-select post-input" type="category" name="category">
                     <option value="">Subject Category</option>
-                    <option value="">Literature</option>
-                    <option value="">Social Science</option>
-                    <option value="">Science</option>
-                    <option value="">History</option>
-                    <option value="">Art</option>
+                    <option value="Literature">Literature</option>
+                    <option value="Social Science">Social Science</option>
+                    <option value="Science">Science</option>
+                    <option value="History">History</option>
+                    <option value="Art">Art</option>
                 </select>
             </div><br><br>
             <div class="mx-auto">
                 <label class="form-label" for="due_date"><strong>When is the Project Due?</strong></label>
-                <input class="form-control" type="date" name="due_date" id="due_date">
+                <input class="form-control" type="date" name="date" id="due_date">
             </div><br><br>
             <div class="mx-auto">
                 <input class="btn btn-secondary" type="submit" value="Post Project!">
+                <input type="hidden" name="user_id" value="{{session['user_id']}}">
             </div>
         </form>
     </main>

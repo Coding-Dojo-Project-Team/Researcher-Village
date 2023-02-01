@@ -33,17 +33,10 @@ def projects():
 @app.route('/projects/to_db', methods=["POST"])      
 def project():
     if 'user_id' not in session:
+        flash("You must be logged in to add a project.")
         return redirect("/")
-    if not Project.validate_project(request.form):
-        return redirect("/post")
-    data = {
-        "project_name": request.form['project_name'],
-        "category": request.form['category'],
-        "user_id":session["user_id"]
-    }
-    Project.project_insert(data)  
-    return redirect("/project") 
-    # ^^ should this return them to dashboard? I think project.html only shows one project at a time.
+    valid_project = Project.project_insert(request.form)  #<----Create form validation in model and then add condition for this here.
+    return redirect("/dashboard") 
 
 @app.route("/project/delete/<int:id>")
 def delete_project(id):

@@ -3,7 +3,7 @@ from flask import flash
 from flask_app.models.user import User
 
 class Project:
-    db = "group_projects"
+    db = "group_project"
     def __init__(self,data):
         self.id = data['id']
         self.project_name = data['projeect_name']
@@ -14,7 +14,8 @@ class Project:
 
     @classmethod
     def project_insert(cls,data):
-        query = "INSERT INTO projects (project_name, category, user_id) VALUES(%(project_name)s,%(category)s, %(user_id)s);"
+        query = "INSERT INTO projects (project_name, category, date, user_id) VALUES(%(project_name)s,%(category)s,%(date)s,%(user_id)s);"
+        print(query)
         return connectToMySQL(cls.db).query_db(query,data)
     
     @classmethod

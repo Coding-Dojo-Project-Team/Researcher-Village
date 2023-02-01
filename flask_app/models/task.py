@@ -4,7 +4,7 @@ from flask_app.models.user import User
 from flask_app.models.project import Project
 
 class Task:
-    db = "group_projects"
+    db = "group_project"
     def __init__(self,data):
         self.id = data['id']
         self.task = data['task']
