@@ -22,10 +22,10 @@
         </div>
     {% endif %}
 {% endwith %}
+
     <div class="d-grid gap-3">
         <h1 class="text-center">Student Registration</h1>
         <form class=" border mx-auto my-3 p-2 d-flex flex-column align-items-center" action ="/register" method = "post">
-            <!-- make sure names in the inputs match the column names and method names perfectly -->
             <div class="mb-4">
                 <label class="fw-bold">First Name:</label>
                 <input type="text" name="first_name">
@@ -34,10 +34,14 @@
                 <label class="fw-bold">Last Name:</label>
                 <input type="text" name="last_name">
             </div>
-            <div class="mb-4">
-                <!-- Should we make this a select element so we can control their options? Since data type is SET, it won't accept any mispellings -->
+            <div class="mb-4 d-flex justify-content-between align-items-center">
                 <label class="fw-bold">Class:</label>
-                <input type="text" name="year">
+                <select class="form-select post-input" type="select" name="year">
+                    <option value="">Freshman</option>
+                    <option value="">Sophomore</option>
+                    <option value="">Junior</option>
+                    <option value="">Senior</option>
+                </select>
             </div>
             <div class="mb-4">
                 <label class="fw-bold">Email:</label>
