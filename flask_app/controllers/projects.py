@@ -1,4 +1,4 @@
-from crypt import methods
+#from crypt import methods
 
 from flask import flash, redirect, render_template, request, session
 
@@ -17,7 +17,8 @@ def dashboard():
     data ={
         'id': session['user_id']
     }
-    return render_template("dashboard.html", user=User.get_by_id(data))
+    # don't we want all projects to show in dashboard?
+    return render_template("dashboard.html", user=User.get_user_id(data))
 
 @app.route('/project')
 def projects():
@@ -26,6 +27,7 @@ def projects():
     data ={
         'id': session['user_id']
     }
+    # should project page return a project by id with its tasks?
     return render_template("project.html",user=User.get_by_id(data), new_system = Project.get_all_projects())
 
 @app.route('/projects/to_db', methods=["POST"])      
@@ -40,7 +42,8 @@ def project():
         "user_id":session["user_id"]
     }
     Project.project_insert(data)  
-    return redirect("/project")
+    return redirect("/project") 
+    # ^^ should this return them to dashboard? I think project.html only shows one project at a time.
 
 @app.route("/project/delete/<int:id>")
 def delete_project(id):
@@ -59,4 +62,4 @@ def edit_project (id):
     data = {
         "id" : id,  
     }
-    return render_template("update.html", user=User.get_by_id(data), "Place Holder" = Project.get_one_project(data))
+    return render_template("update.html", user=User.get_by_id(data)) #<--"Place Holder" = Project.get_one_project(data)
