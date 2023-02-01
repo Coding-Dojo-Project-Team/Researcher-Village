@@ -20,16 +20,19 @@
     <main class=" mx-auto mt-5 col-8">
         <h1 class="text-center">Welcome to Researcher Village</h1>
         <!-- To add the below comment when iterating through the projects for user -->
-
-        <!-- {% for project in projects %} -->
+        {% for project in projects %}
+            {% if project.user.id == session.user_id: %}
         <div class="border mx-auto my-3 p-2 d-flex justify-content-center">
-            <a class="fw-bold mx-4" href="/user/project/{{project_id}}">{{project.name}}</a>
-            <!-- {% if project.user.id == session.user_id: %} -->
-                <button class="mx-2 btn btn-success" action="/project/edit/{{project_id}}">Edit</button>
-                <button class="mx-2 btn btn-danger" action="/project/delete/{{project_id}}">Delete</button>
-            <!-- {% endif %} -->
+            <a class="fw-bold mx-4" href="/project/{{project.id}}">{{project.project_name}}</a>
+                <button class="mx-2 btn btn-success" action="/project/edit/{{project.id}}">Edit</button>
+                <button class="mx-2 btn btn-danger" action="/project/delete/{{project.id}}">Delete</button>
         </div>
-        <!-- {% endfor %} -->
+            {%else%}
+            <div class="border mx-auto my-3 p-2 d-flex justify-content-center">
+                <a class="fw-bold mx-4" href="/user/project/{{project.id}}">{{project.project_name}}</a>
+            </div>
+            {% endif %}
+        {% endfor %}
     </main>
     <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js')}}"></script>
 </body>

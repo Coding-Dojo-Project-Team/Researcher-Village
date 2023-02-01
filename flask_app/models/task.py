@@ -1,7 +1,6 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
 from flask_app.models.user import User
-from flask_app.models.project import Project
 
 class Task:
     db = "group_project"
@@ -12,12 +11,13 @@ class Task:
         self.status = data['status']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
-        self.user = None
+        self.project_id = data['project_id']
+        self.user_id = data['user_id']
 
 
     @classmethod
     def task_insert(cls,data):
-        query = "INSERT INTO tasks (task, date, status, project_id) VALUES(%(task)s,%(date)s,%(status)s %(project_id)s);"
+        query = "INSERT INTO tasks (task, date, status, project_id, user_id) VALUES(%(task)s,%(date)s,%(status)s, %(project_id)s, %(user_id)s);"
         return connectToMySQL(cls.db).query_db(query,data)
     
     @classmethod
@@ -51,29 +51,8 @@ class Task:
         
     @classmethod
     def get_one_task(cls,data):
-        query = "SELECT * FROM tasks JOIN projects ON task.project_id = projects.id WHERE task.id = %(id)s;"
-        results = connectToMySQL(cls.db).query_db(query,data)
-        print(results)
-        
-        if len(results) == 0:    
-            return None
-        else: 
-            task_dictionary = results[0]
-            task_obj = cls(results[0])
-            project_dictionary = {
-                    "id" : task_dictionary['project.id'],
-                    "task" : task_dictionary['task'],
-                    "date" : task_dictionary['date'],
-                    "status" : task_dictionary['status'],
-                    "created_at" : task_dictionary['projects.created_at'],
-                    "updated_at" : task_dictionary['projects.updated_at'],
-                }
-
-            task_obj = Project(project_dictionary)
-
-            task_obj.project = project_obj
-            return task_obj
-        
+        query = "SELECT * FROM tasks WHERE tasks.id = %(id)s;"
+        return connectToMySQL(cls.db).query_db(query,data)
 
     @staticmethod
     def validate_task(form_data):
@@ -84,7 +63,8 @@ class Task:
     @classmethod
     def delete_task(cls, data):
         query = "DELETE FROM tasks WHERE id =%(id)s"
-        return connectToMySQL(cls.db).query_db(query,data)
+        results = connectToMySQL(cls.db).query_db(query,data)
+        return cls(results[0])
     
     @classmethod
     def task_edit(cls, data):

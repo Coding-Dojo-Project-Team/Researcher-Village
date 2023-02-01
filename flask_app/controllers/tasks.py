@@ -30,20 +30,21 @@ def tasks():
     }
     return render_template("project.html",project=Project.get_by_id(data), new_system = Task.get_all_tasks())
 
-@app.route('/tasks/to_db', methods=["POST"])      
-def task():
+@app.route('/tasks/to_db/<int:id>', methods=["POST"])      
+def task(id):
     if 'user_id' not in session:
         return redirect("/")
     if not Task.validate_task(request.form):
         return redirect("/post")
     data = {
         "task": request.form['task'],
-        "status": request.form['status'],
+        "status": 0,
         "date": request.form['date'],
-        "user_id":session["user_id"]
+        'project_id': id,
+        "user_id": session["user_id"]
     }
     Task.task_insert(data)  
-    return redirect("/task")
+    return redirect(f"/project/{id}")
 
 @app.route("/task/delete/<int:id>")
 def delete_tasks(id):
@@ -62,4 +63,4 @@ def edit_tasks (id):
     data = {
         "id" : id,  
     }
-    return render_template("update.html", project=Project.get_by_id(data)) #"Place Holder" = Task.get_one_task(data)
+    return render_template("updated_task.html", task = Task.get_one_task(data))

@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- commented out until we have controller to run app, render template, and utilize jinja2 -->
-    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"> -->
-    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
@@ -17,7 +15,7 @@
 <body>
     <nav class="d-flex justify-content-end mt-3 me-5">
         <ul class="text-end d-inline-flex">
-            <li class="mx-2"><a href="/post">Home </a></li> |
+            <li class="mx-2"><a href="/dashboard">Home </a></li> |
             <li class="mx-2"><a href="/project">Post</a></li> |
             <li class="mx-2"><a href="/logout">Logout</a></li>
         </ul>
@@ -25,38 +23,43 @@
     <main class=" mx-auto mt-5 col-8 d-flex flex-column">
         <!-- Project info, un-task related -->
         <div>
-            <!-- <h1 class="">{Project Name} Tasks</h1>
+            {% if project.user.id == session.user_id: %}
+                <div class="d-flex align-items-center">
+                    <h1 class="">{{project.project_name}}</h1>
+                    <a class="ms-3 btn btn-success" href="/project/edit/{{project.id}}">Update</a>
+                    <a class="ms-3 btn btn-danger" href="/project/delete/{{project.id}}">Delete</a>
+                </div>
+            {%else%}
+            {%endif%}
             {% if project.category == 'Literature'  %}
                 <h2> Subject: Literature <i class="bi bi-journal-text"></i></h2>
-            {% elif %}
+            {% elif project.category == 'History' %}
                 <h2> Subject: History <i class="bi bi-globe-europe-africa"></i></h2>
-            {% elif %}
-                <h2> Subject: Social Science<i class="bi bi-bar-chart-line-fill"></i></h2>
-            {% elif %}
+            {% elif project.category == 'Social Sciences' %}
+                <h2> Subject: Social Sciences<i class="bi bi-bar-chart-line-fill"></i></h2>
+            {% elif project.category == 'Science' %}
                 <h2> Subject: Science <i class="bi bi-lightning-charge-fill"></i></h2>
-            {% elif %}
-                <h2> Subject: Art <i class="bi bi-brush"></i></h2>
-            {% end if %}
-            {% if  {{ time.now.date() }} >= project.due_date - time.delta(days=2) %}
-                <h2>Due Date: {{ project.due_date }} Due Soon!</h2>
-            {% elif {{ time.now.date() }} == project.due_date %}
-                <h2>Due Date: {{ project.due_date }} Due Today!</h2>
             {% else %}
-            <h2>Due Date: {{ project.due_date }}</h2>
-            {% end if %} -->
-            <div class="d-flex align-items-center">
-                <h1 class="me-3">{Project Name}</h1>
-                <a class="me-3 btn btn-success" href="/project/edit/{{project.id}}">Update</a>
-                <a class="me-3 btn btn-danger" href="/project/delete/{{project.id}}">Delete</a>
-            </div>
-            <h2> Subject: Science <i class="bi bi-lightning-charge-fill"></i></h2>
-            <h2>Due Date: {{ project.due_date }}</h2>
+                <h2> Subject: Art <i class="bi bi-brush"></i></h2>
+            {% endif %}
+            {% if current_time == due_soon %}
+                <h2 class="text-danger">Due Date: {{ project.date.strftime('%d %b %Y')  }} Due Soon! </h2>
+            {% elif current_time == project.date %}
+            <h2 class="text-danger">Due Date: {{ project.date.strftime('%d %b %Y')  }} Due Today! </h2>
+            {% elif current_time >= over_due %}
+            <h2 class="text-danger">Due Date: {{ project.date.strftime('%d %b %Y')  }} Over Due! </h2>
+            {% else%}
+            <h2 class="text-success">Due Date: {{ project.date.strftime('%d %b %Y')  }}</h2>
+            {%endif%}
+            {% if project.user.id == session.user_id: %}
             <div class="d-flex project-planning flex-row my-3">
                 <h2>Project Planning:</h2>
                 <button class="btn btn-warning task-action add-task mx-4 align-items-top" href="">Add Task to
                     Project</button>
             </div>
-            <form class="col-6 border border-1 p-3 hide" id="task-form" action="/tasks/to_db{{project.id}}"
+            {%else%}
+            {%endif%}
+            <form class="col-6 border border-1 p-3 hide" id="task-form" action="/tasks/to_db/{{project.id}}"
                 method="POST">
                 <label class="form-label" for="task">Add a task to {{project.project_name}}</label>
                 <input class="form-control mt-1" type="text" name="task" id="task">
@@ -70,6 +73,9 @@
         </div>
         <!-- Should we display anything else about the task? -->
         <table id="task-table" class="table">
+            {% if project.tasks[0].id == None %}
+            <h3 class=" text-center">Add a task!</h3>
+            {%else%}
             <thead>
                 <tr class="text-center">
                     <th>Task Description</th>
@@ -79,67 +85,25 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- {% for task in all_project_tasks %}
-                    {% if task.status == 0  %}
-                        <tr>
-                            <td class="task-name">{{ task.name }}</td>
-                            <td class="status" >
-                                <input class="form-check-input" type="checkbox" name="" id="">
-                            </td>
-                        </tr>
-                    {% else%}
-                        <tr>
-                            if completed text will crossed out
-                            <td class="task-name completed">{{ task.name }}</td>
-                            <td class="status" >
-                                <input class="form-check-input" type="checkbox" name="" id="">
-                            </td>
-                        </tr>
-                    {% endif %}
-                {% endfor %} -->
-                <!-- Need to determine how we want to update tasks -->
+                {% for task in project.tasks %}
                 <tr>
-                    <td class="task-info">Find sources</td>
-                    <td class="task-info">02/23/23</td>
+                    <td class="task-info">{{task.task}}</td>
+                    <td class="task-info">{{task.date}}</td>
                     <td class="task-info">
+                        <!-- logic for this might need to wait until we change data type for status -->
                         <i class="bi bi-check-circle-fill mx-4"></i>
-                        <!-- <input class="form-check-input" type="checkbox" name="" id=""> -->
                     </td>
-                    <td class="task-info text-center change-task">
-                            <a class="mx-2" href="/task/edit/{{project.task.id}}">Update</a> |
-                            <a class="mx-2" href="/task/delete/{{project.task.id}}">Cancel</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="task-info">Check with prof that sources work</td>
-                    <td class="task-info">02/25/23</td>
-                    <td class="task-info">
-                        <i class="bi bi-check-circle-fill mx-4"></i>
-                        <!-- <input class="form-check-input" type="checkbox" name="" id=""> -->
-                    </td>
-                    <td class="task-info text-center change-task">
-                            <a class="mx-2" href="/task/edit/{{project.task.id}}">Update</a> |
-                            <a class="mx-2" href="/task/delete/{{project.task.id}}">Cancel</a>
+                    <td class="task-info change-task text-center">
+                        <a class="mx-2" href="/task/edit/{{task.id}}">Update</a> |
+                        <a class="mx-2" href="/task/delete/{{task.id}}">Cancel</a>
                     </td>
                 </tr>
-                <tr>
-                    <td class="task-info">Start Reading</td>
-                    <td class="task-info">02/29/23</td>
-                    <td class="task-info">
-                        <!-- <input class="form-check-input" type="checkbox" name="" id=""> -->
-                    </td>
-                    <td class="task-info text-center change-task">
-                            <a class="mx-2" href="/task/edit/{{project.task.id}}">Update</a> |
-                            <a class="mx-2" href="/task/delete/{{project.task.id}}">Cancel</a>
-                    </td>
-                </tr>
+                {% endfor %}
+                {%endif%}
             </tbody>
         </table>
-        <script src="https://code.jquery.com/jquery-3.6.3.js"
-            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
-        <script src="../static/js/scripts.js"></script>
-        <!-- ^^ will switch out once front-end and back-end are in sync -->
-        <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script> -->
+        <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 
 </html>
