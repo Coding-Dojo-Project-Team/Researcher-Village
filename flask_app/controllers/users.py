@@ -8,13 +8,17 @@ bcrypt = Bcrypt(app)
 def index():
     return render_template("login.html")
 
+@app.route('/registration')
+def register_page():
+    return render_template("register.html")
+
 @app.route('/register', methods=['POST'])
 def register():
     valid_user = User.create_valid_user(request.form)
     print(valid_user)
     if not valid_user:
-        return redirect('/')
-    session['user_id'] = valid_user.id
+        return redirect('/registration')
+    session['user_id'] = valid_user
     return redirect('/dashboard')
 
 @app.route('/login', methods=['POST'])
