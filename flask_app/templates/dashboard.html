@@ -24,8 +24,10 @@
             {% if project.user.id == session.user_id: %}
         <div class="border mx-auto my-3 p-2 d-flex justify-content-center">
             <a class="fw-bold mx-4" href="/project/{{project.id}}">{{project.project_name}}</a>
-                <button class="mx-2 btn btn-success" action="/project/edit/{{project.id}}">Edit</button>
-                <button class="mx-2 btn btn-danger" action="/project/delete/{{project.id}}">Delete</button>
+                <form>
+                    <button class="mx-2 btn btn-success" formaction="/project/edit/{{project.id}}">Edit</button>
+                    <button class="mx-2 btn btn-danger" formaction="/project/delete/{{project.id}}">Delete</button>
+                </form>
         </div>
             {%else%}
             <div class="border mx-auto my-3 p-2 d-flex justify-content-center">
