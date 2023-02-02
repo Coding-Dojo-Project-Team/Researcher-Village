@@ -57,6 +57,12 @@ class Task:
     @staticmethod
     def validate_task(form_data):
         is_valid = True
+        if len(form_data['task']) < 2:
+            flash('Your Task must have at least 2 characters', 'task')
+            is_valid = False
+        if len(form_data['date']) == 0:
+            flash('Your task must have a due date', 'task')
+            is_valid = False
         print(form_data)
         return is_valid 
     
