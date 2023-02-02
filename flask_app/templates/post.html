@@ -17,18 +17,20 @@
             <li class="mx-2"><a href="/logout">Logout</a></li> 
         </ul>
     </nav>
-    <main class=" mx-auto mt-5 col-8">
-        <h1 class="text-center">Project Planner <i class="bi bi-card-checklist"></i></h1>
-        {% with messages = get_flashed_messages(category_filter = ['project']) %}
+    <main class=" mx-auto mt-5 col-3">
+        <div class="container">
+            {% with messages = get_flashed_messages(category_filter = ['project']) %}
             {% if messages %}
-                <div id="popup">
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                        <button onclick ="popup.remove()">Ok</button>
-                    {% endfor%}
-                </div>
+            {% for message in messages %}
+            <div class="alert alert-warning" role="alert">
+                {{ message }}
+                <!-- <button onclick ="popup.remove()">Ok</button> -->
+            </div>
+            {% endfor%}
             {% endif %}
-        {% endwith %}
+            {% endwith %}
+        </div>
+        <h1 class="text-center">Project Planner <i class="bi bi-card-checklist"></i></h1>
         <form class="d-flex mt-3 flex-column" action="/projects/to_db" method="post">
             <!-- Do we not want labels? -->
             <div class="mx-auto">
