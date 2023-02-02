@@ -12,7 +12,7 @@
 <body>
     <main class=" mx-auto mt-5 col-8">
             <!-- from learn platform -->
-    {% with messages = get_flashed_messages() %}
+    <!-- {% with messages = get_flashed_messages() %}
     {% if messages %}
         <div id="popup">
             {% for message in messages %}
@@ -21,7 +21,24 @@
             {% endfor%}
         </div>
     {% endif %}
-    {% endwith %}
+    {% endwith %} -->
+
+    <!-- NEW flash messaging -->
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button onclick ="popup.remove()">Ok</button> -->
+                    {{message}}
+                </div>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block body %}{% endblock %}
+    </div>
         <div class="d-grid gap-3">
             <h1 class="text-center">Researcher Village</h1>
             <h2 class="text-center">Login</h2>
