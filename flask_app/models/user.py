@@ -89,7 +89,7 @@ class User:
         if len(user['last_name']) <2:
             flash("Last name must be at least 2 character.","Register")
             valid = False
-        if len(user['year']) <0:
+        if len(user['year']) <=0:
             flash("Class year is required.","Register")
             valid = False
         if not EMAIL_REGEX.match(user['email']):
@@ -97,6 +97,9 @@ class User:
             valid = False
         if len(user['password']) <8:
             flash("Password must be at least 8 characters.","Register")
+            valid = False
+        if not user['password'] == user['confirm_password']:
+            flash("Password does not match","Register")
             valid = False
         email_data = {'email':user['email']}
         email_already_has_account = User.get_user_email(email_data)

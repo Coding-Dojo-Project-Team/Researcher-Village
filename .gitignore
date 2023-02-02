@@ -257,3 +257,6 @@ poetry.toml
 .ruff_cache/
 
 # End of https://www.toptal.com/developers/gitignore/api/flask,python
+
+# Other
+mysqlconnection.py
