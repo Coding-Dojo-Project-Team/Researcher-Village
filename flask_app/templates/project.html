@@ -12,15 +12,15 @@
     <title>Researcher Village</title>
 </head>
 
-<body>
-    <nav class="d-flex justify-content-end mt-3 me-5">
+<body id="proj-bg">
+    <nav class="d-flex justify-content-end mt-3 me-5 text-light">
         <ul class="text-end d-inline-flex">
-            <li class="mx-2"><a href="/dashboard">Home </a></li> |
-            <li class="mx-2"><a href="/project">Post</a></li> |
-            <li class="mx-2"><a href="/logout">Logout</a></li>
+            <li class="mx-2"><a class="nav-a" href="/dashboard">Home </a></li> |
+            <li class="mx-2"><a class="nav-a" href="/project">Post</a></li> |
+            <li class="mx-2"><a class="nav-a" href="/logout">Logout</a></li>
         </ul>
     </nav>
-    <main class=" mx-auto mt-5 col-8 d-flex flex-column">
+    <main class=" mx-auto mt-5 col-8 d-flex flex-column p-3" id="white-bg">
         <!-- Project info, un-task related -->
         <div>
             {% if project.user.id == session.user_id: %}
@@ -30,6 +30,10 @@
                     <a class="ms-3 btn btn-danger" href="/project/delete/{{project.id}}">Delete</a>
                 </div>
             {%else%}
+            <div class="align-items-center">
+                <h1 class="">{{project.project_name}}</h1>
+                <h1 class="">{{project.user.first_name}}'s Project</h1>
+            </div>
             {%endif%}
             {% if project.category == 'Literature'  %}
                 <h2> Subject: Literature <i class="bi bi-journal-text"></i></h2>
@@ -42,7 +46,7 @@
             {% else %}
                 <h2> Subject: Art <i class="bi bi-brush"></i></h2>
             {% endif %}
-            {% if current_time == due_soon %}
+            {% if current_time in due_soon %}
                 <h2 class="text-danger">Due Date: {{ project.date.strftime('%d %b %Y')  }} Due Soon! </h2>
             {% elif current_time == project.date %}
             <h2 class="text-danger">Due Date: {{ project.date.strftime('%d %b %Y')  }} Due Today! </h2>
@@ -59,6 +63,18 @@
             </div>
             {%else%}
             {%endif%}
+            {% with messages = get_flashed_messages(category_filter = ['task']) %}
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible" role="alert">
+                    <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button onclick ="popup.remove()">Ok</button> -->
+                        {{message}}
+                    </div>
+                {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% block body %}{% endblock %}
             <form class="col-6 border border-1 p-3 hide" id="task-form" action="/tasks/to_db/{{project.id}}"
                 method="POST">
                 <label class="form-label" for="task">Add a task to {{project.project_name}}</label>
@@ -71,37 +87,70 @@
                 </div>
             </form>
         </div>
-        <!-- Should we display anything else about the task? -->
-        <table id="task-table" class="table">
             {% if project.tasks[0].id == None %}
-            <h3 class=" text-center">Add a task!</h3>
-            {%else%}
-            <thead>
-                <tr class="text-center">
-                    <th>Task Description</th>
-                    <th>Finish By</th>
-                    <th>Done?</th>
-                    <th>Change Task</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for task in project.tasks %}
-                <tr>
-                    <td class="task-info">{{task.task}}</td>
-                    <td class="task-info">{{task.date}}</td>
-                    <td class="task-info">
-                        <!-- logic for this might need to wait until we change data type for status -->
-                        <i class="bi bi-check-circle-fill mx-4"></i>
-                    </td>
-                    <td class="task-info change-task text-center">
-                        <a class="mx-2" href="/task/edit/{{task.id}}">Update</a> |
-                        <a class="mx-2" href="/task/delete/{{task.id}}">Cancel</a>
-                    </td>
-                </tr>
-                {% endfor %}
+                {% if project.user.id == session.user_id %}
+                    <h3 class=" text-center">Add a task!</h3>
+                {%else%}
+                    <h3 class=" text-center"> {{project.user.first_name}} hasn't started their task list</h3>
                 {%endif%}
-            </tbody>
-        </table>
+            {%else%}
+            {% if project.user.id == session.user_id %}
+            <table id="task-table" class="table">
+                <thead>
+                    <tr class="text-center">
+                        <th>Task Description</th>
+                        <th>Finish By</th>
+                        <th>Done?</th>
+                        <th>Change Task</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in project.tasks %}
+                    <tr>
+                        <td class="task-info text-wrap">{{task.task}}</td>
+                        <td class="task-info">{{task.date}}</td>
+                        <td class="task-info text-center">
+                            {% if task.status == 'To Do' %}
+                            <span class="text-danger"><strong>To Do</strong></span>
+                            {% else %}
+                            <span class="text-success"><strong>Done!</strong></span><i class="bi bi-check-circle-fill mx-4 text-success"></i>
+                        </td>
+                            {% endif %}
+                        <td class="task-info change-task text-center">
+                            <a class="mx-2" href="/task/edit/{{task.id}}/{{project.id}}">Update</a> |
+                            <a class="mx-2" href="/task/delete/{{task.id}}/{{project.id}}">Remove</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <table id="task-table" class="table">
+                <thead>
+                    <tr class="text-center">
+                        <th>Task Description</th>
+                        <th>Finish By</th>
+                        <th>Done?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in project.tasks %}
+                    <tr>
+                        <td class="task-info text-wrap">{{task.task}}</td>
+                        <td class="task-info">{{task.date}}</td>
+                        <td class="task-info text-center">
+                            {% if task.status == 'To Do' %}
+                            <span class="text-danger"><strong>To Do</strong></span>
+                            {% else %}
+                            <span class="text-success"><strong>Done!</strong></span><i class="bi bi-check-circle-fill mx-4 text-success"></i>
+                        </td>
+                            {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {%endif%}
+        {%endif%}
         <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>

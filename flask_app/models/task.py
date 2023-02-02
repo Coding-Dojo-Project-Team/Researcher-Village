@@ -52,7 +52,11 @@ class Task:
     @classmethod
     def get_one_task(cls,data):
         query = "SELECT * FROM tasks WHERE tasks.id = %(id)s;"
-        return connectToMySQL(cls.db).query_db(query,data)
+        result = connectToMySQL(cls.db).query_db(query,data)
+        if len(result) == 0:
+            return None
+        else:
+            return cls(result[0])
 
     @staticmethod
     def validate_task(form_data):
@@ -69,8 +73,7 @@ class Task:
     @classmethod
     def delete_task(cls, data):
         query = "DELETE FROM tasks WHERE id =%(id)s"
-        results = connectToMySQL(cls.db).query_db(query,data)
-        return cls(results[0])
+        return connectToMySQL(cls.db).query_db(query,data)
     
     @classmethod
     def task_edit(cls, data):

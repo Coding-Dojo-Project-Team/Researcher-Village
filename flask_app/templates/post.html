@@ -18,18 +18,23 @@
         </ul>
     </nav>
     <main class=" mx-auto mt-5 col-8">
-        <h1 class="text-center">Project Planner <i class="bi bi-card-checklist"></i></h1>
-        {% with messages = get_flashed_messages(category_filter = ['project']) %}
-            {% if messages %}
-                <div id="popup">
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                        <button onclick ="popup.remove()">Ok</button>
-                    {% endfor%}
-                </div>
-            {% endif %}
-        {% endwith %}
-        <form class="d-flex mt-3 flex-column" action="/projects/to_db" method="post">
+        <h1 class="text-center">Project Planner <i class="bi bi-journals"></i></h1>
+        <div class="container col-6">
+            {% with messages = get_flashed_messages(category_filter = ['project']) %}
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible" role="alert">
+                    <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button onclick ="popup.remove()">Ok</button> -->
+                        {{message}}
+                    </div>
+                {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            {% block body %}{% endblock %}
+        </div>
+        <form class="d-flex mt-3 flex-column border border-1 p-5 mx-auto col-7" action="/projects/to_db" method="post">
             <!-- Do we not want labels? -->
             <div class="mx-auto">
                 <input class="form-control post-input" type="text" name="project_name" placeholder="Enter project name">
