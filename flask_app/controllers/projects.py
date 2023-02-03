@@ -33,7 +33,7 @@ def projects(id):
     }
     project_dictionary = Project.get_by_id(data)
     time = project_dictionary.date
-    due_soon = time + timedelta(days= -2)
+    due_soon = [time + timedelta(days= -2), time + timedelta(days= -1)]
     over_due = time + timedelta(days= +1)
     current_time = date.today()
     # should project page return a project by id with its tasks?

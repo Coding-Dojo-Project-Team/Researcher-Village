@@ -35,10 +35,10 @@ def task(id):
     if 'user_id' not in session:
         return redirect("/")
     if not Task.validate_task(request.form):
-        return redirect("/post")
+        return redirect(f"/project/{id}")
     data = {
         "task": request.form['task'],
-        "status": 0,
+        "status": 'To Do',
         "date": request.form['date'],
         'project_id': id,
         "user_id": session["user_id"]
@@ -46,21 +46,36 @@ def task(id):
     Task.task_insert(data)  
     return redirect(f"/project/{id}")
 
-@app.route("/task/delete/<int:id>")
-def delete_tasks(id):
+@app.route("/task/delete/<int:id>/<int:proj_id>")
+def delete_tasks(id,proj_id):
     if "user_id" not in session:
         return redirect("/")
     data = {
         "id" : id
     }
     Task.delete_task(data)
-    return redirect("/project")
+    return redirect(f"/project/{proj_id}")
 
-@app.route("/task/edit/<int:id>")
-def edit_tasks (id):
+@app.route("/task/edit/<int:id>/<int:proj_id>")
+def task_edit_page (id, proj_id):
     if 'user_id' not in session:
         return redirect("/")
     data = {
         "id" : id,  
     }
     return render_template("updated_task.html", task = Task.get_one_task(data))
+
+@app.route('/task/update/<int:id>/<int:proj_id>', methods=['POST'])
+def update_task(id,proj_id):
+    if 'user_id' not in session:
+        return redirect("/")
+    if not Task.validate_task(request.form):
+        return redirect(f"/task/edit/{id}/{proj_id}")
+    data = {
+        'task': request.form['task'],
+        'date': request.form['date'],
+        'status': request.form['status'],
+        'id': id,
+    }
+    Task.task_edit(data)
+    return redirect(f"/project/{proj_id}")
